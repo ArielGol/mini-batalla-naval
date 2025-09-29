@@ -59,7 +59,7 @@ public class Main {
 			}
 			jugadas++;
 			}
-			
+		System.out.println("Has hundido: "+barcos+" barcos");	
 		System.out.println("Juego terminado");
 	}
 
