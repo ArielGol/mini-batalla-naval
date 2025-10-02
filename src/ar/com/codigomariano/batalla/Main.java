@@ -15,6 +15,8 @@ public class Main {
 		
 		
 		
+		
+		
 	
 	}
 	
@@ -36,7 +38,6 @@ public class Main {
 	
 	private static void jugar(char[][] tablero) {
 		Scanner s=new Scanner(System.in);
-		
 		int barcos=0;
 		int jugadas=0;
 		while(jugadas<10 && barcos!=5) {
@@ -49,18 +50,18 @@ public class Main {
 			} else {
 				if(tablero[fila][col]=='B') {
 					System.out.println("¡Hundiste un barco!");
-					tablero[fila][col]=0;
+					
 					barcos++;
 				}else {
 					System.out.println("¡Agua!");
-					tablero[fila][col]=0;
-				
 				}
 			}
+			tablero[fila][col]=0;
 			jugadas++;
 			}
 		System.out.println("Has hundido: "+barcos+" barcos");	
 		System.out.println("Juego terminado");
+		s.close();
 	}
 
 }
