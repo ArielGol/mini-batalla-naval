@@ -1,46 +1,41 @@
-package ar.com.codigomariano.batalla;
+package ar.com.codigomariano.domain;
 
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+import ar.com.codigomariano.enums.Posiciones;
 
-	public static void main(String[] args) {
-		
-		
-		char[][] tablero=new char[5][5];
-		
-		inicializarTablero(tablero);		
-		jugar(tablero);
-		
-		
-		
-		
-		
+public class Juego {
 	
+	public char[][] tablero=new char[5][5];
+	private final static int TOTAL_JUGADAS=10;
+	private final static int BARCOS_HUNDIDOS=5; 
+	
+	public Juego() {
+		inicializarTablero(this.tablero);
+
 	}
 	
 	private static void inicializarTablero(char[][] tablero) {
 		Random r=new Random();
-		char[] posiciones=new char[] {'A','B'};
 		for(int fila=0;fila<tablero.length;fila++) {
 			for(int col=0;col<tablero[fila].length;col++) {
-				int aleatorio=r.nextInt(0, posiciones.length);
+				int aleatorio=r.nextInt(0, Posiciones.values().length);
 				if(aleatorio==0) {
-					tablero[fila][col]=posiciones[0];
+					tablero[fila][col]=Posiciones.AGUA.getPosicion();
 				}else {
-					tablero[fila][col]=posiciones[1];
+					tablero[fila][col]=Posiciones.BARCO.getPosicion();
 				}
 			}
 		}
 
 	}
 	
-	private static void jugar(char[][] tablero) {
+	public static void jugar(char[][] tablero) {
 		Scanner s=new Scanner(System.in);
 		int barcos=0;
 		int jugadas=0;
-		while(jugadas<10 && barcos!=5) {
+		while(jugadas<TOTAL_JUGADAS && barcos!=BARCOS_HUNDIDOS) {
 			System.out.print("Ingresa fila(1-5): ");
 			int fila=(s.nextInt())-1;
 			System.out.print("Ingresa columna(1-5): ");
