@@ -6,10 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 	
 		Juego juegoUno=new Juego();
-		
-		char[][] tablero=juegoUno.tablero;
-		
-		Juego.jugar(tablero);
+		juegoUno.jugar();
 		
 
 }

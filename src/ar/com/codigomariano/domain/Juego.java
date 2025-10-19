@@ -6,57 +6,62 @@ import java.util.Scanner;
 import ar.com.codigomariano.enums.Posiciones;
 
 public class Juego {
+	private final static int FILAS=5;
+	private final static int COLUMNAS=5;
 	
-	public char[][] tablero=new char[5][5];
+	private char[][] tablero=new char[FILAS][COLUMNAS];
 	private final static int TOTAL_JUGADAS=10;
 	private final static int BARCOS_HUNDIDOS=5; 
 	
 	public Juego() {
-		inicializarTablero(this.tablero);
+		inicializarTablero();
 
 	}
 	
-	private static void inicializarTablero(char[][] tablero) {
+	private void inicializarTablero() {
 		Random r=new Random();
-		for(int fila=0;fila<tablero.length;fila++) {
-			for(int col=0;col<tablero[fila].length;col++) {
+		for(int fila=0;fila<this.tablero.length;fila++) {
+			for(int col=0;col<this.tablero[fila].length;col++) {
 				int aleatorio=r.nextInt(0, Posiciones.values().length);
-				if(aleatorio==0) {
-					tablero[fila][col]=Posiciones.AGUA.getPosicion();
-				}else {
-					tablero[fila][col]=Posiciones.BARCO.getPosicion();
-				}
+				this.tablero[fila][col]=Posiciones.values()[aleatorio].getPosicion();
 			}
 		}
-
 	}
 	
-	public static void jugar(char[][] tablero) {
+	public void jugar() {
 		Scanner s=new Scanner(System.in);
 		int barcos=0;
 		int jugadas=0;
+		char x='x';
 		while(jugadas<TOTAL_JUGADAS && barcos!=BARCOS_HUNDIDOS) {
-			System.out.print("Ingresa fila(1-5): ");
-			int fila=(s.nextInt())-1;
-			System.out.print("Ingresa columna(1-5): ");
-			int col=(s.nextInt())-1;
-			if(tablero[fila][col]==0) {
-				System.out.println("Ya ingresastes en esta posicion");
+			int fila=ingresarDatos("Ingresa fila(1-5): ",s);
+			int col=ingresarDatos("Ingresa columna(1-5): ",s);
+			if(this.tablero[fila][col]==x) {
+				mensaje("Ya ingresastes en esta posicion");
 			} else {
-				if(tablero[fila][col]=='B') {
-					System.out.println("¡Hundiste un barco!");
-					
+				if(this.tablero[fila][col]==Posiciones.BARCO.getPosicion()) {
+					mensaje("¡Hundiste un "+Posiciones.BARCO+"!");
 					barcos++;
 				}else {
-					System.out.println("¡Agua!");
+					mensaje("¡"+Posiciones.AGUA+"!");
 				}
 			}
-			tablero[fila][col]=0;
+			tablero[fila][col]=x;
 			jugadas++;
 			}
-		System.out.println("Has hundido: "+barcos+" barcos");	
-		System.out.println("Juego terminado");
+		mensaje("Has hundido: "+barcos+" barcos");	
+		mensaje("Juego terminado");
 		s.close();
+	}
+	
+	private int ingresarDatos(String texto,Scanner s) {
+		int datoIngresado=0;
+		System.out.print(texto);
+		datoIngresado=(s.nextInt())-1;
+		return datoIngresado;
+	}
+	private void mensaje(String texto) {
+		System.out.println(texto);
 	}
 
 }
