@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import ar.com.codigomariano.enums.Posiciones;
+import ar.com.codigomariano.exceptions.RuleIInvalidException;
 
 public class Juego {
 	private final static int FILAS=5;
@@ -11,7 +12,8 @@ public class Juego {
 	
 	private char[][] tablero=new char[FILAS][COLUMNAS];
 	private final static int TOTAL_JUGADAS=10;
-	private final static int BARCOS_HUNDIDOS=5; 
+	private final static int BARCOS_HUNDIDOS=5;
+	private static final String INGRESADO_ERR = "El valor ingresado no es válido.Intente ingresar un número"; 
 	
 	public Juego() {
 		inicializarTablero();
@@ -28,7 +30,7 @@ public class Juego {
 		}
 	}
 	
-	public void jugar() {
+	public void jugar() throws RuleIInvalidException {
 		Scanner s=new Scanner(System.in);
 		int barcos=0;
 		int jugadas=0;
@@ -36,6 +38,7 @@ public class Juego {
 		while(jugadas<TOTAL_JUGADAS && barcos!=BARCOS_HUNDIDOS) {
 			int fila=ingresarDatos("Ingresa fila(1-5): ",s);
 			int col=ingresarDatos("Ingresa columna(1-5): ",s);
+			if(fila<0||fila>4||col<0||col>4) throw new RuleIInvalidException();
 			if(this.tablero[fila][col]==x) {
 				mensaje("Ya ingresastes en esta posicion");
 			} else {
@@ -55,10 +58,18 @@ public class Juego {
 	}
 	
 	private int ingresarDatos(String texto,Scanner s) {
-		int datoIngresado=0;
-		System.out.print(texto);
-		datoIngresado=(s.nextInt())-1;
-		return datoIngresado;
+		Integer datoConvertido=-1;
+		do{
+			try {	
+			System.out.print(texto);
+			String datoIngresado=s.next();
+			datoConvertido=Integer.parseInt(datoIngresado);
+			}catch(NumberFormatException ex) {
+				System.out.println(INGRESADO_ERR);
+			}
+		}while(datoConvertido==-1);
+		
+		return datoConvertido-1;
 	}
 	private void mensaje(String texto) {
 		System.out.println(texto);
